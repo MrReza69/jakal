@@ -101,9 +101,9 @@ def save_track():
         )
         db.session.add(new_track)
         db.session.commit()
-        flash('آهنگ با موفقیت ذخیره شد!', 'success')
+        flash('Success', 'success')
     else:
-        flash('این آهنگ قبلاً ذخیره شده است.', 'warning')
+        flash('This song have saved in past', 'warning')
     return redirect(request.referrer)
 
 @app.route('/remove_track/<int:track_id>')
@@ -113,9 +113,9 @@ def remove_track(track_id):
     if track.user_id == current_user.id:
         db.session.delete(track)
         db.session.commit()
-        flash('آهنگ با موفقیت حذف شد!', 'success')
+        flash('Success', 'success')
     else:
-        flash('اجازه انجام این عمل را ندارید!', 'danger')
+        flash('You can not do that', 'danger')
     return redirect(url_for('profile'))
 
 @app.route('/profile')
