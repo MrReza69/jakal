@@ -80,6 +80,49 @@ def play(track_id):
     track = sp.track(track_id)
     return render_template('play.html', track=track)
 
+from datetime import datetime
+
+@app.route('/save_track', methods=['POST'])
+@login_required
+def save_track():
+    track_id = request.form.get('track_id')
+    track_name = request.form.get('track_name')
+    artist_name = request.form.get('artist_name')
+    
+    # بررسی تکراری نبودن آهنگ
+    existing = SavedTrack.query.filter_by(user_id=current_user.id, track_id=track_id).first()
+    if not existing:
+        new_track = SavedTrack(
+            user_id=current_user.id,
+            track_id=track_id,
+            track_name=track_name,
+            artist_name=artist_name
+        )
+        db.session.add(new_track)
+        db.session.commit()
+        flash('آهنگ با موفقیت ذخیره شد!', 'success')
+    else:
+        flash('این آهنگ قبلاً ذخیره شده است.', 'warning')
+    return redirect(request.referrer)
+
+@app.route('/remove_track/<int:track_id>')
+@login_required
+def remove_track(track_id):
+    track = SavedTrack.query.get_or_404(track_id)
+    if track.user_id == current_user.id:
+        db.session.delete(track)
+        db.session.commit()
+        flash('آهنگ با موفقیت حذف شد!', 'success')
+    else:
+        flash('اجازه انجام این عمل را ندارید!', 'danger')
+    return redirect(url_for('profile'))
+
+@app.route('/profile')
+@login_required
+def profile():
+    saved_tracks = SavedTrack.query.filter_by(user_id=current_user.id).order_by(SavedTrack.added_at.desc()).all()
+    return render_template('profile.html', saved_tracks=saved_tracks)
+    
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
