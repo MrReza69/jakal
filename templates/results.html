@@ -32,12 +32,12 @@
         <div class="card-body">
             <h5 class="card-title">{{ track['name'] }}</h5>
             <p class="card-text">{{ track['artists'][0]['name'] }}</p>
-            <a href="{{ url_for('play', track_id=track['id']) }}" class="btn btn-success">پخش</a>
+            <a href="{{ url_for('play', track_id=track['id']) }}" class="btn btn-success">Play</a>
             <form method="POST" action="{{ url_for('save_track') }}" class="d-inline">
                 <input type="hidden" name="track_id" value="{{ track['id'] }}">
                 <input type="hidden" name="track_name" value="{{ track['name'] }}">
                 <input type="hidden" name="artist_name" value="{{ track['artists'][0]['name'] }}">
-                <button type="submit" class="btn btn-info">ذخیره</button>
+                <button type="submit" class="btn btn-info">Save</button>
             </form>
         </div>
     </div>
