@@ -5,6 +5,7 @@ from models import db, User, Search
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
