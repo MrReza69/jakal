@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -6,8 +7,8 @@ import os
 app = Flask(__name__)
 
 # Spotify API
-client_id = os.getenv('SPOTIPY_CLIENT_ID', 'your_spotify_client_id')
-client_secret = os.getenv('fcb2ecd28fba41e8ad40f986532ffd96', 'b07fb0c02a0e4ef7b60529e39e3d6c09')
+client_id = os.getenv('fcb2ecd28fba41e8ad40f986532ffd96', 'b07fb0c02a0e4ef7b60529e39e3d6c09')
+client_secret = os.getenv('SPOTIPY_CLIENT_SECRET', 'your_spotify_client_secret')
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_secret))
 
 @app.route('/')
@@ -28,7 +29,6 @@ def play(track_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 
 
 
